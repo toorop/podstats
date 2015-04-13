@@ -46,7 +46,6 @@ func RecordHit(r *http.Request) error {
 	db, err := geoip2.Open(getBasePath() + "/GeoLite2-City.mmdb")
 	if err == nil {
 		defer db.Close()
-		// If you are using strings that may be invalid, check that ip is not nil
 		ip := net.ParseIP(fromIp)
 		record, err := db.City(ip)
 		if err == nil {
