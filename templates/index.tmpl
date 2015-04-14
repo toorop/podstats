@@ -1,0 +1,22 @@
+ <div class="container-fluid">
+    <div class="row">        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ep</th>
+                    <th>Title</th>
+                    <th>Plays</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{range $ep := .Episodes}}
+                <tr>
+                    <th scope="row">{{$ep.Episode}}</th>
+                    <td>{{$ep.Title}}</td>
+                    <td>{{$ep.PlayCount}}</td>
+                </tr>
+            {{end}}    
+            </tbody>
+        </table>
+    </div>
+</div>
