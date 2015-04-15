@@ -18,7 +18,7 @@ import (
 	"github.com/unrolled/render"
 	"html/template"
 	"path/filepath"
-	"sort"
+	//"sort"
 	"strconv"
 )
 
@@ -58,14 +58,14 @@ func main() {
 	router.GET("/p/:podcast/:episode", wrapHandler(getEpisode))
 
 	// Podcast stats
-	router.GET("/s/:podcast", wrapHandler(showPodcastStats))
+	//router.GET("/s/:podcast", wrapHandler(showPodcastStats))
 
 	// Admin: add podcast
 	router.GET("/a/new", wrapHandler(newEpisode))
 	router.POST("/a/add", wrapHandler(addEpisode))
 
 	// Server
-	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.NewStatic(http.Dir("public")))
+	n := negroni.New(negroni.NewRecovery(), negroni.NewStatic(http.Dir("public")))
 	n.UseHandler(router)
 	addr := fmt.Sprintf("127.0.0.1:3333")
 	log.Fatalln(http.ListenAndServe(addr, n))
@@ -181,7 +181,7 @@ func addEpisode(w http.ResponseWriter, r *http.Request) {
 }
 
 // showPodcastStats return podcast stats
-func showPodcastStats(w http.ResponseWriter, r *http.Request) {
+/*func showPodcastStats(w http.ResponseWriter, r *http.Request) {
 	// Episodes SELECT COUNT(DISTINCT episode) FROM hits WHERE podcast = ``
 	var episodes sort.StringSlice
 	episodes = []string{}
@@ -217,7 +217,7 @@ func showPodcastStats(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte(out))
-}
+}*/
 
 // wrapHandler puts httprouter.Params in query context
 // in order to keep compatibily with http.Handler
@@ -236,7 +236,7 @@ func initDb() error {
 		return err
 	}
 	DB = &db
-	DB.LogMode(true)
+	DB.LogMode(false)
 
 	if err = DB.AutoMigrate(&hit{}, &episode{}).Error; err != nil {
 		return err
