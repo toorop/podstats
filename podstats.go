@@ -119,11 +119,7 @@ func handlerHome(w http.ResponseWriter, r *http.Request) {
 
 // getEpisode records hit and return episode
 func getEpisode(w http.ResponseWriter, r *http.Request) {
-	/*if err := RecordHit(r); err != nil {
-		w.WriteHeader(500)
-		w.Write([]byte(err.Error()))
-		return
-	}*/
+
 	episodeNumber, err := strconv.ParseUint(httpcontext.Get(r, "params").(httprouter.Params).ByName("episode"), 10, 32)
 	if err != nil {
 		w.WriteHeader(500)
@@ -136,6 +132,12 @@ func getEpisode(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+
+	/*if err := RecordHit(r); err != nil {
+		w.WriteHeader(500)
+		w.Write([]byte(err.Error()))
+		return
+	}*/
 	go RecordHit(r)
 	w.Header().Set("Location", ep.Link)
 	w.WriteHeader(302)

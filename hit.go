@@ -34,12 +34,13 @@ func RecordHit(r *http.Request) error {
 	fromIp := r.Header.Get("X-Real-IP")
 	//return errors.New(fromIp)
 	//fromIp = "109.190.73.59"
-	//fromIp = "88.178.118.205"
+	fromIp = "88.178.118.205"
 	hosts, err := net.LookupAddr(fromIp)
 	if err == nil && len(hosts) > 0 {
 		fromHost = hosts[0]
 	} else {
-		fromHost = ""
+		return err
+		//fromHost = ""
 	}
 	// geoip
 	var country, countryCode, city, timeZone, coordinates string
@@ -54,7 +55,11 @@ func RecordHit(r *http.Request) error {
 			countryCode = record.Country.IsoCode
 			timeZone = record.Location.TimeZone
 			coordinates = fmt.Sprintf("%f, %f", record.Location.Latitude, record.Location.Longitude)
+		} else {
+			return err
 		}
+	} else {
+		return err
 	}
 
 	return DB.Create(hit{
