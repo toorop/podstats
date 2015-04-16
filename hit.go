@@ -34,7 +34,7 @@ func RecordHit(r *http.Request) error {
 	fromIp := r.Header.Get("X-Real-IP")
 	//return errors.New(fromIp)
 	//fromIp = "109.190.73.59"
-	fromIp = "88.178.118.205"
+	//fromIp = "88.178.118.205"
 	hosts, err := net.LookupAddr(fromIp)
 	if err == nil && len(hosts) > 0 {
 		fromHost = hosts[0]
